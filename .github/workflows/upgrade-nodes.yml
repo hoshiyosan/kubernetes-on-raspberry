@@ -1,0 +1,38 @@
+name: "Upgrade nodes"
+
+on:
+  workflow_run:
+  schedule:
+    - cron: "0 4 * * 6"
+
+jobs:
+  upgrade_nodes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Configure SSH access to nodes"
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> /home/runner/.ssh/id_rsa
+          cat <<-EOF > /home/runner/.ssh/config
+          Host k3s-master
+             HostName sylvan.ovh
+             User osadmin
+             Port 2220
+          
+          Host k3s-worker1
+             HostName sylvan.ovh
+             User osadmin
+             Port 2221
+          
+          Host k3s-worker2
+             HostName sylvan.ovh
+             User osadmin
+             Port 2222
+          EOF
+
+      - name: Setup Ansible
+        uses: alex-oleshkevich/setup-ansible@v1.0.1
+        with:
+          version: "2.11.11"
+        
+      - name: "Run ansible playbook"
+        run: "make upgrade-nodes"
