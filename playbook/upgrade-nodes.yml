@@ -1,0 +1,20 @@
+---
+- name: Upgrade system packages
+  hosts: nodes
+  remote_user: osadmin
+  become: true
+
+  tasks:
+    - name: Update list of available packages
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Upgrade installed packages
+      ansible.builtin.apt:
+        upgrade: "yes"
+      notify:
+        - Reboot node
+
+  handlers:
+    - name: Reboot node
+      ansible.builtin.reboot:

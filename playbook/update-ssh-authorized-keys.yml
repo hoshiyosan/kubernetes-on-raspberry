@@ -1,0 +1,21 @@
+---
+- name: Upgrade system packages
+  hosts: nodes
+  remote_user: osadmin
+  become: true
+  vars_files:
+    - ../variables/ssh_authorized_keys.yml
+
+  tasks:
+    - name: Authorize SSH key on host
+      ansible.builtin.lineinfile:
+        path: /home/osadmin/.ssh/authorized_keys
+        line: "{{ item }}"
+      loop: "{{ public_keys }}"
+      notify: Restart sshd
+
+  handlers:
+    - name: Restart sshd
+      service:
+        name: ssh
+        state: restarted

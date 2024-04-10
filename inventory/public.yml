@@ -1,0 +1,13 @@
+masters:
+  hosts:
+    k3s-master:
+
+workers:
+  hosts:
+    k3s-worker1:
+    k3s-worker2:
+
+nodes:
+  children:
+    masters:
+    workers:
