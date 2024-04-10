@@ -1,4 +1,5 @@
 ANSIBLE_INVENTORY ?= inventory/public.yml
+ANSIBLE_HOST_KEY_CHECKING ?= False
 
 export
 
