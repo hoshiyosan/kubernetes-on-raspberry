@@ -1,4 +1,4 @@
-ANSIBLE_INVENTORY := inventory/internal.yml
+ANSIBLE_INVENTORY ?= inventory/public.yml
 
 export
 
