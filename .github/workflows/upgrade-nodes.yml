@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: "Configure SSH access to nodes"
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> /home/runner/.ssh/id_rsa
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
           cat <<-EOF > /home/runner/.ssh/config
           Host k3s-master
              HostName sylvan.ovh
