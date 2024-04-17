@@ -20,6 +20,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
+          sudo chmod 600 ~/.ssh/id_rsa
           cat <<-EOF > /home/runner/.ssh/config
           Host k3s-master
              HostName sylvan.ovh
